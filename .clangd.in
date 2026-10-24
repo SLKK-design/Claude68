@@ -1,0 +1,19 @@
+CompileFlags:
+  Compiler: clang++
+  Add:
+    # Retro68 Classic Mac system headers (TEHandle, WindowPtr, etc.)
+    # Path is substituted from RETRO68_ROOT at cmake configure time.
+    - "-isystem@RETRO68_ROOT@/m68k-apple-macos/include"
+    # Target defines so headers conditionalize correctly
+    - "-D__m68k__"
+    - "-DTARGET_CPU_68K=1"
+    - "-DTARGET_OS_MAC=1"
+    - "-DTARGET_API_MAC_OS8=1"
+  Remove:
+    # clang doesn't know these m68k GCC flags
+    - "-m68*"
+    - "-mcpu=*"
+    - "-masm=*"
+    # Bogus sysroot-relative paths injected by the toolchain cmake
+    - "-I/include"
+    - "-I/.."
